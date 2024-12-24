@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProductCreateAction, ProductListAction, ProductUpdateAction } from "../Actions/ProductActions";
 import { useNavigate, useParams } from "react-router-dom";
 
-let isSubmited = false
 
 export default function FormScreen() {
+    let isSubmited = false
     const navigate = useNavigate()
     const params = useParams().alias
 
@@ -95,13 +95,14 @@ export default function FormScreen() {
         if (isSubmited) {
             seterror(() => Validator(Product))
         }
+        // eslint-disable-next-line
     }, [Product])
 
     const Inserthandeler = () => {
         const validation = Validator(Product)
-        seterror(validation)
         isSubmited = true
-        if (!Object.keys(error).length) {
+        if (!Object.keys(validation).length) {
+            seterror(validation)
             const isExist = Products.find((x) => x.alias === Product.alias)
             if (isExist) return seterror({ alias: "Product Alias" + Product.alias + "is Already Exist !" })
             dispatch(ProductCreateAction(Product))
@@ -110,14 +111,15 @@ export default function FormScreen() {
     }
     const UpdateHandeler = () => {
         const validation = Validator(Product)
-        seterror(validation)
         isSubmited = true
-        if (!Object.keys(error).length) {
+        if (Object.keys(validation).length <= 0) {
+            seterror(validation)
             dispatch(ProductUpdateAction(Product))
             navigate("/")
         }
     }
 
+    console.log(error, Product)
     return <>
         <div className="d-flex justify-content-between flex-row align-items-center">
             <h2>Insert Product</h2>
