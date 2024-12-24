@@ -1,0 +1,12 @@
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover{
+  color: inherit;
+}
+
+#content{
+  /* min-height: calc(100% - 1rem); */
+}
