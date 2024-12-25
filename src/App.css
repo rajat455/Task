@@ -10,3 +10,6 @@ a:hover{
 #content{
   /* min-height: calc(100% - 1rem); */
 }
+.table{
+  max-width: calc(100vw - 24px);
+}

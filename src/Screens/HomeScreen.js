@@ -55,7 +55,7 @@ export default function HomeScreen() {
             <Button onClick={() => navigate("/form/add")} variant="contained" color="primary">Add New </Button>
         </div>
         <div className="row">
-            <div className="col-12">
+            <div className="col-12 table">
                 <DataGrid
                     rows={Products || []}
                     columns={columns}
