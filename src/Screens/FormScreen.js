@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function FormScreen() {
-    let isSubmited = false
+    const [isSubmited, setisSubmited] = useState(false)
     const navigate = useNavigate()
     const params = useParams().alias
 
@@ -36,9 +36,6 @@ export default function FormScreen() {
     }, [])
 
     useEffect(() => {
-
-
-
         if (params !== "add") {
             const product = Products.find((x) => x.alias === params)
             setProduct({ ...Product, ...product })
@@ -100,26 +97,32 @@ export default function FormScreen() {
 
     const Inserthandeler = () => {
         const validation = Validator(Product)
-        isSubmited = true
-        if (!Object.keys(validation).length) {
+        setisSubmited(true)
+        if (Object.keys(validation).length > 0) {
             seterror(validation)
-            const isExist = Products.find((x) => x.alias === Product.alias)
-            if (isExist) return seterror({ alias: "Product Alias" + Product.alias + "is Already Exist !" })
-            dispatch(ProductCreateAction(Product))
-            navigate("/")
+            return
         }
+        seterror(false)
+        const isExist = Products.find((x) => x.alias === Product.alias)
+        if (isExist) return seterror({ alias: "Product Alias" + Product.alias + "is Already Exist !" })
+        dispatch(ProductCreateAction(Product))
+        setisSubmited(false)
+        navigate("/")
     }
     const UpdateHandeler = () => {
         const validation = Validator(Product)
-        isSubmited = true
-        if (Object.keys(validation).length <= 0) {
+        setisSubmited(true)
+        if (Object.keys(validation).length > 0) {
             seterror(validation)
-            dispatch(ProductUpdateAction(Product))
-            navigate("/")
+            return
         }
+        setisSubmited(false)
+        dispatch(ProductUpdateAction(Product))
+        navigate("/")
     }
 
-    console.log(error, Product)
+
+    console.log(error)
     return <>
         <div className="d-flex justify-content-between flex-row align-items-center">
             <h2>Insert Product</h2>
